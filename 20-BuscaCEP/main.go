@@ -2,37 +2,37 @@ package main
 
 import (
 	"encoding/json"
-	"os"
+	"fmt"
+	"io"
+	"net/http"
 )
 
-type Conta struct {
-	Numero int `json:"-"`
-	Saldo  int `json:"saldo"`
+type Cep struct {
+	Bairro     string `json:"bairro"`
+	Localidade string `json:"localidade"`
+}
+
+func buscaCep(num int) string {
+	viaCepLink := fmt.Sprintf("https://viacep.com.br/ws/%d/json/", num)
+
+	req, err := http.Get(viaCepLink)
+	if err != nil {
+		panic(err)
+	}
+	defer req.Body.Close()
+
+	res, err := io.ReadAll(req.Body)
+	if err != nil {
+		panic(err)
+	}
+	var cep Cep
+	json.Unmarshal(res, &cep)
+
+	return cep.Localidade
 }
 
 func main() {
-	conta := Conta{Numero: 1, Saldo: 100}
 
-	//Ao usar Marshal, você consegue guardar o valor do json em uma váriavel.
-	res, err := json.Marshal(conta)
-	if err != nil {
-		panic(err)
-	}
-	println(string(res))
-
-	// Ao usar NewEncoder, você consegue serializar o json direto na tela.
-	err = json.NewEncoder(os.Stdout).Encode(conta)
-	if err != nil {
-		panic(err)
-	}
-
-	// Ao usar Unmarshal, você consegue deserializar o json em uma struct.
-	jsonPuro := []byte(`{"n":2,"s":200}`)
-	var contaX Conta
-	err = json.Unmarshal(jsonPuro, &contaX)
-	if err != nil {
-		panic(err)
-	}
-	println(contaX.Saldo)
+	println(buscaCep(86010150))
 
 }
