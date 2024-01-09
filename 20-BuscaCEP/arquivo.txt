@@ -1,0 +1,10 @@
+CEP: 86010-150
+Logradouro: Avenida Rio de Janeiro
+Complemento: 
+Bairro: Centro
+Localidade: Londrina
+UF: PR
+IBGE: 4113700
+GIA: 
+DDD: 43
+ 
