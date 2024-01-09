@@ -31,22 +31,40 @@ func BuscaCepHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cepParam := r.URL.Query().Get("cep")
-
-	req, err := http.Get("https://viacep.com.br/ws/" + cepParam + "/json/")
-	if cepParam == "" || err != nil {
+	if cepParam == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	res, err := io.ReadAll(req.Body)
-
-	var cepResponse CepResponse
-
-	json.Unmarshal(res, &cepResponse)
-
-	marshal, err := json.Marshal(cepResponse)
+	cepResponse, err := BuscaCep(cepParam)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(marshal))
+	json.NewEncoder(w).Encode(cepResponse)
+}
+
+func BuscaCep(cep string) (*CepResponse, error) {
+	res, err := http.Get("https://viacep.com.br/ws/" + cep + "/json/")
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var cepResponse CepResponse
+
+	err = json.Unmarshal(body, &cepResponse)
+	if err != nil {
+		return nil, err
+	}
+
+	return &cepResponse, nil
 }
