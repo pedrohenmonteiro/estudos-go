@@ -43,11 +43,30 @@ func main() {
 	// fmt.Println(product)
 
 	//select all
-	var products []Product
-	db.Find(&products)
+	// var products []Product
+	// db.Find(&products)
 
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
+
+	//utilizando Limit para limitar a consulta e Offset para paginaçao
+	// var products []Product
+	// db.Limit(2).Offset(2).Find(&products)
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
+
+	// where
+	// var products []Product
+	// db.Where("price > ?", 90).Find(&products)
+	// for _, product := range products {
+	// 	fmt.Println(product)
+	// }
+
+	var products []Product
+	db.Where("name LIKE ?", "%book%").Find(&products)
 	for _, product := range products {
 		fmt.Println(product)
 	}
-
 }
