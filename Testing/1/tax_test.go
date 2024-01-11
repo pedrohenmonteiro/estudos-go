@@ -31,3 +31,25 @@ func TestCalculateTaxBatch(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkCalculateTax(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalculateTax(500.00)
+	}
+}
+
+func BenchmarkCalculateTax2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalculateTax2(500.00)
+	}
+}
+
+// go test -coverprofile=coverage.out  para ver a cobertura de testes
+
+// go tool cover -html=coverage.out  para vizualizar a cobertura de testes em html
+
+// go test -bench=.          para rodar o benchmark
+// go test -bench=. -run=^#   para rodar o benchmark sem rodar testes
+// go test -bench=. -run=^# -count=10 para rodar o benchmark 10 vezes
+// go test -bench=. -run=^# -count=10 -benchtime=3s roda o benchmark por 3 segundos
+// go test -bench=. -run=^# -benchmem   para verificar a alocaçao de memoria
