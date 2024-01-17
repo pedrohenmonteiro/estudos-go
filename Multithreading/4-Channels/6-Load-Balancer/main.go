@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func worker(workerId int, data chan int) {
+func worker(workerId int, data <-chan int) {
 	for x := range data {
 		fmt.Printf("Worker %d received %d\n", workerId, x)
 		time.Sleep(time.Second)
