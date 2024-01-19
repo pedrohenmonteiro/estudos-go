@@ -9,15 +9,15 @@ import (
 )
 
 type Category struct {
-	ID          int32
+	ID          string
 	Name        sql.NullString
 	Description sql.NullString
 }
 
 type Course struct {
-	ID          int32
+	ID          string
 	Name        sql.NullString
-	CategoryID  sql.NullInt32
+	CategoryID  sql.NullString
 	Description sql.NullString
 	Price       sql.NullString
 }

@@ -8,4 +8,4 @@ migratedown:
 	goose mysql "root:root@tcp(localhost:3308)/blog?parseTime=true" down
 
 
-.PHONY: migrate migratedown createmigration
+.PHONY: migrate migratedown createmigration  

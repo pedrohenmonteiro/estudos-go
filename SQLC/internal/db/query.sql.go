@@ -16,7 +16,7 @@ values (?, ?, ?)
 `
 
 type CreateCategoryParams struct {
-	ID          int32
+	ID          string
 	Name        sql.NullString
 	Description sql.NullString
 }
@@ -30,7 +30,7 @@ const deleteCategory = `-- name: DeleteCategory :exec
 delete from categories where id = ?
 `
 
-func (q *Queries) DeleteCategory(ctx context.Context, id int32) error {
+func (q *Queries) DeleteCategory(ctx context.Context, id string) error {
 	_, err := q.db.ExecContext(ctx, deleteCategory, id)
 	return err
 }
@@ -40,7 +40,7 @@ select id, name, description from categories
 where id = ?
 `
 
-func (q *Queries) GetCategory(ctx context.Context, id int32) (Category, error) {
+func (q *Queries) GetCategory(ctx context.Context, id string) (Category, error) {
 	row := q.db.QueryRowContext(ctx, getCategory, id)
 	var i Category
 	err := row.Scan(&i.ID, &i.Name, &i.Description)
@@ -82,7 +82,7 @@ where id = ?
 type UpdateCategoryParams struct {
 	Name        sql.NullString
 	Description sql.NullString
-	ID          int32
+	ID          string
 }
 
 func (q *Queries) UpdateCategory(ctx context.Context, arg UpdateCategoryParams) error {
