@@ -55,8 +55,8 @@ func main() {
 	// 	println(category.ID, category.Name.String, category.Description.String)
 	// }
 
-	// err = queries.DeleteCategory(ctx, "00000000-0000-0000-0000-000000000001")
-	// if err != nil {
-	// 	panic(err)
-	// }
+	err = queries.DeleteCategory(ctx, "00000000-0000-0000-0000-000000000001")
+	if err != nil {
+		panic(err)
+	}
 }

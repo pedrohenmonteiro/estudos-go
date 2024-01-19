@@ -16,3 +16,7 @@ where id = ?;
 
 -- name: DeleteCategory :exec
 delete from categories where id = ?;
+
+-- name: CreateCourse :exec
+INSERT INTO courses(id, name, description, category_id)
+VALUES(?, ?, ?, ?)

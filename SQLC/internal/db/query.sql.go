@@ -26,6 +26,28 @@ func (q *Queries) CreateCategory(ctx context.Context, arg CreateCategoryParams) 
 	return err
 }
 
+const createCourse = `-- name: CreateCourse :exec
+INSERT INTO courses(id, name, description, category_id)
+VALUES(?, ?, ?, ?)
+`
+
+type CreateCourseParams struct {
+	ID          string
+	Name        sql.NullString
+	Description sql.NullString
+	CategoryID  sql.NullString
+}
+
+func (q *Queries) CreateCourse(ctx context.Context, arg CreateCourseParams) error {
+	_, err := q.db.ExecContext(ctx, createCourse,
+		arg.ID,
+		arg.Name,
+		arg.Description,
+		arg.CategoryID,
+	)
+	return err
+}
+
 const deleteCategory = `-- name: DeleteCategory :exec
 delete from categories where id = ?
 `
