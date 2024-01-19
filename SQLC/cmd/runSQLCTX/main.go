@@ -22,6 +22,19 @@ func NewCourseDB(dbConn *sql.DB) *CourseDB {
 	}
 }
 
+type CourseParams struct {
+	ID string
+	Name sql.NullString
+	Description sql.NullString
+}
+
+type CategoryParams struct {
+	ID string
+	Name sql.NullString
+	Description sql.NullString
+}
+
+
 
 func (c *CourseDB) callTx(ctx context.Context, fn func (*db.Queries) error) error {
 	tx, err := c.dbConn.BeginTx(ctx, nil)
@@ -39,6 +52,36 @@ func (c *CourseDB) callTx(ctx context.Context, fn func (*db.Queries) error) erro
 	}
 	return tx.Commit()
 }
+
+func (c *CourseDB) createCourseAndCategory(ctx context.Context, argsCategory CategoryParams, argsCourse CourseParams) (error){
+	err := c.callTx(ctx, func(q *db.Queries) error {
+		var err error
+		err = q.CreateCategory(ctx, db.CreateCategoryParams{
+			ID: argsCategory.ID,
+			Name: argsCategory.Name
+			Description: argsCategory.Description
+		})
+		if err != nil {
+			return err
+		}
+
+		err = q.CreateCourse(ctx, db.CreateCourseParams{
+			ID: argsCourse.ID,
+			Name: argsCourse.Name
+			Description: argsCourse.Description
+			CategoryID: argsCategory.id
+		})
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 
 func main() {
 	ctx := context.Background()
