@@ -15,7 +15,7 @@ INSERT INTO categories (id, name, description) VALUES
 CREATE TABLE courses (
     id VARCHAR(36) NOT NULL PRIMARY KEY,
     name TEXT,
-    category_id VARCHAR(36),
+    category_id VARCHAR(36) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2),
     FOREIGN KEY (category_id) REFERENCES categories(id)

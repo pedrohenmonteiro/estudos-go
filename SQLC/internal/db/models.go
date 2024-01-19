@@ -17,7 +17,7 @@ type Category struct {
 type Course struct {
 	ID          string
 	Name        sql.NullString
-	CategoryID  sql.NullString
+	CategoryID  string
 	Description sql.NullString
 	Price       sql.NullString
 }

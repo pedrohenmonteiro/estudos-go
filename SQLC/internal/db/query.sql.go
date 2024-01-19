@@ -35,7 +35,7 @@ type CreateCourseParams struct {
 	ID          string
 	Name        sql.NullString
 	Description sql.NullString
-	CategoryID  sql.NullString
+	CategoryID  string
 }
 
 func (q *Queries) CreateCourse(ctx context.Context, arg CreateCourseParams) error {
