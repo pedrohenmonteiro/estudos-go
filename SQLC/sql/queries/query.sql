@@ -18,5 +18,5 @@ where id = ?;
 delete from categories where id = ?;
 
 -- name: CreateCourse :exec
-INSERT INTO courses(id, name, description, category_id)
-VALUES(?, ?, ?, ?)
+INSERT INTO courses(id, name, description, category_id, price)
+VALUES(?, ?, ?, ?, ?)

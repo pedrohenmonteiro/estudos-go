@@ -17,7 +17,7 @@ CREATE TABLE courses (
     name TEXT,
     category_id VARCHAR(36) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2),
+    price DECIMAL(10, 2) NOT NULL,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
  
