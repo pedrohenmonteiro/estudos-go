@@ -1,7 +1,6 @@
 package main
 
 import (
-	"DI/product"
 	"database/sql"
 	"fmt"
 
@@ -14,11 +13,13 @@ func main() {
 		panic(err)
 	}
 
-	// Create a new product repository
-	repository := product.NewProductRepository(db)
+	// // Create a new product repository
+	// repository := product.NewProductRepository(db)
 
-	//Create a new product usecase
-	usecase := product.NewProductUseCase(repository)
+	// //Create a new product usecase
+	// usecase := product.NewProductUseCase(repository)
+
+	usecase := NewUseCase(db)
 
 	product, err := usecase.GetProduct(1)
 	if err != nil {
