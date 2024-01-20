@@ -4,8 +4,6 @@ import (
 	"context"
 	"database/sql"
 
-	"sqlc/internal/db"
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -17,7 +15,15 @@ func main() {
 	}
 	defer dbConn.Close()
 
-	queries := db.New(dbConn)
+	// queries := db.New(dbConn)
+
+	// courses, err := queries.ListCourses(ctx)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// for _, course := range courses {
+	// 	println(course.CategoryName, course.ID, course.Name.String, course.Description.String, course.Price)
+	// }
 
 	// err = queries.CreateCategory(ctx, db.CreateCategoryParams{
 	// 	ID:          uuid.New().String(),

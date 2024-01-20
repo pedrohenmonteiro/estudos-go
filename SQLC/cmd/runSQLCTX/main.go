@@ -8,7 +8,6 @@ import (
 	"sqlc/internal/db"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/google/uuid"
 )
 
 type CourseDB struct {
@@ -91,25 +90,33 @@ func main() {
 	}
 	defer dbConn.Close()
 
-	//queries := db.New(dbConn)
+	queries := db.New(dbConn)
 
-	courseArgs := CourseParams{
-		ID:          uuid.New().String(),
-		Name:        sql.NullString{String: "Go", Valid: true},
-		Description: sql.NullString{String: "Go Course", Valid: true},
-		Price:       10.94,
-	}
-
-	categoryArgs := CategoryParams{
-		ID:          uuid.New().String(),
-		Name:        sql.NullString{String: "Backend", Valid: true},
-		Description: sql.NullString{String: "Backend Course", Valid: true},
-	}
-
-	courseDB := NewCourseDB(dbConn)
-	err = courseDB.CreateCourseAndCategory(ctx, categoryArgs, courseArgs)
+	courses, err := queries.ListCourses(ctx)
 	if err != nil {
 		panic(err)
 	}
+	for _, course := range courses {
+		fmt.Printf("%s %s %s %s %f", course.CategoryName.String, course.ID, course.Name.String, course.Description.String, course.Price)
+	}
+
+	// courseArgs := CourseParams{
+	// 	ID:          uuid.New().String(),
+	// 	Name:        sql.NullString{String: "Go", Valid: true},
+	// 	Description: sql.NullString{String: "Go Course", Valid: true},
+	// 	Price:       10.94,
+	// }
+
+	// categoryArgs := CategoryParams{
+	// 	ID:          uuid.New().String(),
+	// 	Name:        sql.NullString{String: "Backend", Valid: true},
+	// 	Description: sql.NullString{String: "Backend Course", Valid: true},
+	// }
+
+	// courseDB := NewCourseDB(dbConn)
+	// err = courseDB.CreateCourseAndCategory(ctx, categoryArgs, courseArgs)
+	// if err != nil {
+	// 	panic(err)
+	// }
 
 }
